@@ -1,0 +1,53 @@
+<div class="page-header">
+  <h1>Pages</h1>
+</div>
+<ul class="list-unstyled list-inline">
+  <li><a href="<%= newPagesPath() %>" class="btn btn-primary">Create New Page</a></li>
+</ul>
+
+<table class="table table-striped">
+  <thead>
+    <th>Provider</th>
+    <th>Published</th>
+    <th>Name</th>
+    <th>Slug</th>
+    <th>&nbsp;</th>
+  </thead>
+  <tbody>
+    <%= for (page) in pages { %>
+      <tr>
+        <td>
+          <%= if(page.Provider == "mailchimp") { %>
+            <img src="<%= assetPath("images/mailchimp.png") %>"
+          <% } else if (page.Provider == "convertkit") { %>
+            <img src="<%= assetPath("images/convertkit.png") %>"
+          <% } else { %>
+            <img src="<%= assetPath("images/unknown.png") %>"
+          <% } %>
+        </td>
+        <td>
+          <i
+            class="fa fa-circle text-<%= if (page.Published) { %>success<% } else { %>danger<% } %>"
+            data-toggle="tooltip"
+            data-placement="top"
+            title="<%= if (page.Published) { %>Published<% } else { %>Not Published<% } %>"
+          >
+          </i>
+        </td>
+        <td><%= page.Name %></td>
+        <td><%= page.Slug %></td>
+        <td>
+          <div class="pull-right">
+            <a href="<%= pagePath({ page_id: page.ID }) %>" class="btn btn-info">View</a>
+            <a href="<%= editPagePath({ page_id: page.ID }) %>" class="btn btn-warning">Edit</a>
+            <a href="<%= pagePath({ page_id: page.ID }) %>" data-method="DELETE" data-confirm="Are you sure?" class="btn btn-danger">Destroy</a>
+          </div>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
+
+<div class="text-center">
+  <%= paginator(pagination) %>
+</div>
